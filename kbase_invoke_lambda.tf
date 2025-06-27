@@ -3,7 +3,7 @@ resource "aws_lambda_function" "invoke_lambda" {
   role          = aws_iam_role.lambda_invoke.arn
   description   = "Lambda function that queries Bedrock Foundational Model using a Knowledge Base"
   filename      = data.archive_file.kbase_invoke_handler.output_path
-  handler       = "invoke_handler.lambda_handler"
+  handler       = "kbase_invoke_handler.lambda_handler"
   runtime       = "python3.13"
   architectures = ["arm64"]
   timeout       = 60
