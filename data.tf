@@ -158,3 +158,35 @@ data "archive_file" "kbase_invoke_handler" {
   source_file = "${path.module}/src/kbase_invoke_handler.py"
   output_path = "kbase_invoke_handler.zip"
 }
+
+data "aws_iam_policy_document" "assume_bedrock_logs" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["bedrock.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [var.account_id]
+    }
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values   = ["arn:aws:bedrock:${var.region}:${var.account_id}:*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "bedrock_logs" {
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:*"
+    ]
+  }
+}
