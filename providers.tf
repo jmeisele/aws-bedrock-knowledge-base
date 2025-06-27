@@ -11,3 +11,10 @@ provider "aws" {
     }
   }
 }
+
+provider "opensearch" {
+  url            = aws_opensearchserverless_collection.this.collection_endpoint
+  aws_access_key = var.access_key
+  aws_secret_key = var.secret_key
+  healthcheck    = false
+}

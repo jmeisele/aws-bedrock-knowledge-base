@@ -1,2 +1,96 @@
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" "assume" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["bedrock.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [var.account_id]
+    }
+    condition {
+      test     = "ArnLike"
+      variable = "AWS:SourceArn"
+      values   = ["arn:aws:bedrock:${var.region}:${var.account_id}:knowledge-base/*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "bedrock_model_policies" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "bedrock:ListFoundationModels",
+      "bedrock:ListCustomModels"
+    ]
+    resources = ["*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "bedrock:InvokeModel"
+    ]
+    resources = [
+      "arn:aws:bedrock:${var.region}::foundation-model/${local.embedding_model_id}",
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "bedrock:RetrieveAndGenerate"
+    ]
+    resources = ["*"]
+  }
+  #   statement {
+  #     effect  = "Allow"
+  #     actions = ["bedrock:Retrieve"]
+  #     resources = [
+  #       aws_bedrockagent_knowledge_base.this.arn
+  #     ]
+  #   }
+}
+
+data "aws_iam_policy_document" "s3_policies" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [aws_s3_bucket.pokemon.arn]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceAccount"
+      values   = [var.account_id]
+    }
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.pokemon.bucket}/*"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:ResourceAccount"
+      values   = [var.account_id]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "opensearch_policies" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "aoss:APIAccessAll"
+    ]
+    resources = [aws_opensearchserverless_collection.this.arn]
+  }
+}
