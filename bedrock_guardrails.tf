@@ -11,10 +11,10 @@ resource "aws_bedrock_model_invocation_logging_configuration" "this" {
 }
 
 resource "aws_bedrock_guardrail" "this" {
-  name                      = "ai-travel-agent-assistant-guardrail"
-  blocked_input_messaging   = "Sorry, I can not respond to this. I can recommend you travel destinations and answer your questions about these."
-  blocked_outputs_messaging = "Sorry, I can not respond to this. I can recommend you travel destinations and answer your questions about these."
-  description               = "Only respond to the travel recommendation questions, is protected against the most common prompt mis-use threads, provides content moderation, and doesn't answer to competitor's references."
+  name                      = "ai-pokemon-assistant-guardrail"
+  blocked_input_messaging   = "Sorry, I can not respond to this. I can recommend you Pokemon and answer your questions about these."
+  blocked_outputs_messaging = "Sorry, I can not respond to this. I can recommend you Pokemon and answer your questions about these."
+  description               = "Only respond to the Pokemon related questions, is protected against the most common prompt mis-use threads, provides content moderation, and doesn't answer to competitor's references."
 
   content_policy_config {
     filters_config {
@@ -94,13 +94,10 @@ resource "aws_bedrock_guardrail" "this" {
       type = "PROFANITY"
     }
     words_config {
-      text = "SeaScanner"
+      text = "Digimon"
     }
     words_config {
-      text = "Megatravel Deals"
-    }
-    words_config {
-      text = "Expedia"
+      text = "Yugioh"
     }
   }
 }
