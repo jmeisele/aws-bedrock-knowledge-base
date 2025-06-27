@@ -94,3 +94,23 @@ data "aws_iam_policy_document" "opensearch_policies" {
     resources = [aws_opensearchserverless_collection.this.arn]
   }
 }
+
+data "aws_iam_policy_document" "kb_logs" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = ["${aws_cloudwatch_log_group.kb_logs.arn}:log-stream:*"]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [var.account_id]
+    }
+  }
+}
