@@ -16,19 +16,3 @@ resource "aws_lambda_function" "start_kb_ingestion_jobs" {
     }
   }
 }
-
-resource "aws_lambda_permission" "allow_bucket" {
-  statement_id  = "AllowExecutionFromS3Bucket"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.start_kb_ingestion_jobs.arn
-  principal     = "s3.amazonaws.com"
-  source_arn    = aws_s3_bucket.pokemon.arn
-}
-
-# resource "aws_lambda_permission" "allow_cloudwatch" {
-#   statement_id  = "AllowExecutionFromCloudWatch"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.start_kb_ingestion_jobs.function_name
-#   principal     = "events.amazonaws.com"
-#   source_arn    = aws_cloudwatch_event_rule.start_kb_ingestion_job.arn
-# }

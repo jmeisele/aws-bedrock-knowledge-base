@@ -1,7 +1,6 @@
 resource "aws_iam_role" "knowledge_base" {
   name               = "bedrock_pokemon_knowledge_base"
   assume_role_policy = data.aws_iam_policy_document.assume.json
-  #   permissions_boundary = "ScopePermissions"
 }
 
 resource "aws_iam_policy" "iam_policy_for_bedrock_models" {
