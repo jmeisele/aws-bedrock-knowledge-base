@@ -41,12 +41,12 @@ def lambda_handler(event: dict, context: dict) -> dict[str, any]:
             "knowledgeBaseConfiguration": {
                 "knowledgeBaseId": BEDROCK_KNOWLEDGE_BASE_ID,
                 "modelArn": BEDROCK_MODEL_ARN,
-                "generationConfiguration": {
-                    "guardrailConfiguration": {
-                        "guardrailId": BEDROCK_GUARDRAIL_ID,
-                        "guardrailVersion": BEDROCK_GUARDRAIL_VERSION,
-                    }
-                },
+                # "generationConfiguration": {
+                #     "guardrailConfiguration": {
+                #         "guardrailId": BEDROCK_GUARDRAIL_ID,
+                #         "guardrailVersion": BEDROCK_GUARDRAIL_VERSION,
+                #     }
+                # },
             },
             "type": "KNOWLEDGE_BASE",
         },
