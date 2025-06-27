@@ -64,6 +64,15 @@ data "aws_iam_policy_document" "bedrock_model_policies" {
       "*"
     ]
   }
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:*"
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "s3_policies" {
