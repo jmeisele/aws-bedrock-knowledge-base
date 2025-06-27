@@ -146,3 +146,15 @@ data "aws_iam_policy_document" "lambda_start_kb_sync" {
     ]
   }
 }
+
+data "archive_file" "kbase_sync_handler" {
+  type        = "zip"
+  source_file = "${path.module}/src/kbase_sync_handler.py"
+  output_path = "kbase_sync_handler.zip"
+}
+
+data "archive_file" "python_lambda_package" {
+  type        = "zip"
+  source_file = "${path.module}/src/handler.py"
+  output_path = "lambda.zip"
+}

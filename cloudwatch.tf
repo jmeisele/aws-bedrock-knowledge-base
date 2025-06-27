@@ -1,3 +1,8 @@
+resource "aws_cloudwatch_log_group" "start_kb_ingestion_jobs" {
+  name              = "/aws/lambda/start_kb_ingestion_job"
+  retention_in_days = 7
+}
+
 resource "aws_cloudwatch_log_delivery_source" "kb_logs" {
   name         = "bedrock-kb-${aws_bedrockagent_knowledge_base.this.name}"
   log_type     = "APPLICATION_LOGS"
