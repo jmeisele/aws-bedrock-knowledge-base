@@ -32,11 +32,11 @@ def lambda_handler(event: dict, context: dict) -> dict[str, any]:
     {event["event"]}
     """
 
-    input_body = {"inputText": prompt}
-    logger.info(f"input_body: {input_body}")
+    # input_body = {"inputText": prompt}
+    logger.info(f"prompt: {prompt}")
 
     response = bedrock_agent_runtime.retrieve_and_generate(
-        input={"text": input_body},
+        input={"text": prompt},
         retrieveAndGenerateConfiguration={
             "knowledgeBaseConfiguration": {
                 "knowledgeBaseId": BEDROCK_KNOWLEDGE_BASE_ID,
