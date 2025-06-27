@@ -3,6 +3,11 @@ resource "aws_cloudwatch_log_group" "start_kb_ingestion_jobs" {
   retention_in_days = 7
 }
 
+resource "aws_cloudwatch_log_group" "invoke_lambda" {
+  name              = "/aws/lambda/bedrock_kbase_invoke_lambda"
+  retention_in_days = 7
+}
+
 resource "aws_cloudwatch_log_delivery_source" "kb_logs" {
   name         = "bedrock-kb-${aws_bedrockagent_knowledge_base.this.name}"
   log_type     = "APPLICATION_LOGS"
