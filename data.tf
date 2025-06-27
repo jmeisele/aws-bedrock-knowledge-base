@@ -34,7 +34,8 @@ data "aws_iam_policy_document" "bedrock_model_policies" {
   statement {
     effect = "Allow"
     actions = [
-      "bedrock:InvokeModel"
+      "bedrock:Invoke*",
+      "bedrock:ApplyGuardrail"
     ]
     resources = [
       "*",
@@ -52,6 +53,15 @@ data "aws_iam_policy_document" "bedrock_model_policies" {
     actions = ["bedrock:Retrieve"]
     resources = [
       aws_bedrockagent_knowledge_base.this.arn
+    ]
+  }
+  statement {
+    sid = "CloudWatchMetrics"
+    actions = [
+      "cloudwatch:PutMetricData"
+    ]
+    resources = [
+      "*"
     ]
   }
 }
