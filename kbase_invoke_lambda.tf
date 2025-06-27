@@ -13,8 +13,8 @@ resource "aws_lambda_function" "invoke_lambda" {
     variables = {
       BEDROCK_KNOWLEDGE_BASE_ID = aws_bedrockagent_knowledge_base.this.id
       BEDROCK_MODEL_ARN         = local.invoke_model_id
-      BEDROCK_GUARDRAIL_ID      = aws_bedrock_guardrail.this.guardrail_id
-      BEDROCK_GUARDRAIL_VERSION = aws_bedrock_guardrail_version.this.version
+      # BEDROCK_GUARDRAIL_ID      = aws_bedrock_guardrail.this.guardrail_id
+      # BEDROCK_GUARDRAIL_VERSION = aws_bedrock_guardrail_version.this.version
     }
   }
 }
