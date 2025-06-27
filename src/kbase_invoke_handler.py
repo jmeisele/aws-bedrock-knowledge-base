@@ -54,19 +54,19 @@ def lambda_handler(event: dict, context: dict) -> dict[str, any]:
 
     logger.info(f"response: {response}")
 
-    if len(response["citations"][0]["retrievedReferences"]) != 0:
-        context = response["citations"][0]["retrievedReferences"]["content"]["text"]
-        doc_url = response["citations"][0]["retrievedReferences"]["s3Location"]["uri"]
-        return {
-            "statusCode": 200,
-            "body": json.dumps(
-                {
-                    "knowledge_base_response": response["output"]["text"],
-                    "context": context,
-                    "doc_url": doc_url,
-                }
-            ),
-        }
+    # if len(response["citations"][0]["retrievedReferences"]) != 0:
+    #     context = response["citations"][0]["retrievedReferences"]["content"]["text"]
+    #     doc_url = response["citations"][0]["retrievedReferences"]["s3Location"]["uri"]
+    #     return {
+    #         "statusCode": 200,
+    #         "body": json.dumps(
+    #             {
+    #                 "knowledge_base_response": response["output"]["text"],
+    #                 "context": context,
+    #                 "doc_url": doc_url,
+    #             }
+    #         ),
+    #     }
 
     return {
         "statusCode": 200,
