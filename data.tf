@@ -153,8 +153,8 @@ data "archive_file" "kbase_sync_handler" {
   output_path = "kbase_sync_handler.zip"
 }
 
-data "archive_file" "python_lambda_package" {
+data "archive_file" "kbase_invoke_handler" {
   type        = "zip"
-  source_file = "${path.module}/src/handler.py"
-  output_path = "lambda.zip"
+  source_file = "${path.module}/src/kbase_invoke_handler.py"
+  output_path = "kbase_invoke_handler.zip"
 }
