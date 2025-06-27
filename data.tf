@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "bedrock_model_policies" {
       "bedrock:InvokeModel"
     ]
     resources = [
-      "arn:aws:bedrock:${var.region}::foundation-model/${local.embedding_model_id}",
+      "*",
     ]
   }
   statement {
@@ -47,13 +47,13 @@ data "aws_iam_policy_document" "bedrock_model_policies" {
     ]
     resources = ["*"]
   }
-  #   statement {
-  #     effect  = "Allow"
-  #     actions = ["bedrock:Retrieve"]
-  #     resources = [
-  #       aws_bedrockagent_knowledge_base.this.arn
-  #     ]
-  #   }
+  statement {
+    effect  = "Allow"
+    actions = ["bedrock:Retrieve"]
+    resources = [
+      aws_bedrockagent_knowledge_base.this.arn
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "s3_policies" {
@@ -112,5 +112,37 @@ data "aws_iam_policy_document" "kb_logs" {
       variable = "aws:SourceAccount"
       values   = [var.account_id]
     }
+  }
+}
+
+data "aws_iam_policy_document" "assume_lambda" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+data "aws_iam_policy_document" "lambda_start_kb_sync" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "bedrock:StartIngestionJob"
+    ]
+    resources = [
+      "arn:aws:bedrock:${var.region}:${var.account_id}:knowledge-base/*"
+    ]
+  }
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:*"
+    ]
   }
 }
